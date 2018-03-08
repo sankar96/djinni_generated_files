@@ -1,0 +1,40 @@
+
+my_record = record {
+    key1: i32;
+    key2: string;
+    key3: list<list<string>>;
+}
+
+cell = record {
+	formulaValue: string;
+	actualValue: string;
+	dependents: list<string>;
+	precedents: list<string>;
+	expressionTokens: list<string>;
+}
+
+updated_values = record {
+	row: i32;
+	column: i32;
+	actualValue: string;
+	formulaValue: string;
+}
+
+dependency_evaluator = interface +c {
+  static create(): dependency_evaluator;
+  get_parsed_string(expression : string): list<string>;
+
+  evaluate_expression (actualExpression: string, expression : list<string>, row : i32, column : i32, currentCell: string);
+
+  store_cell_value_constant (constant : string, row : i32, column : i32);
+
+  store_cell_value_formula (expression : string);
+
+  return_updated_values (expression : string, row : i32, column : i32, source:string, fromActivity : i32): list<updated_values>;
+
+  create_huge_memory ();
+}
+
+my_client_interface = interface +j +o {
+    log_string(str: string);
+}
